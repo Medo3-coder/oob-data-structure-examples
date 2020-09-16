@@ -3,7 +3,7 @@
 #include <cstring>
 #include <algorithm>
 using namespace std;
-
+                                            //this to calcuate area of triangle 
 class triangle
 {
 	private :
