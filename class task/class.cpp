@@ -38,6 +38,7 @@ class triangle
 	
 	int main()
 	{
+		// c is the object of class
 		triangle c ;
 		c.setBase_height(5,3);
 		cout<<c.area()<<endl;
