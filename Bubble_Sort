@@ -1,0 +1,53 @@
+
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+void bubbleSort(int arr[] , int n)
+{
+    bool flag = true ;                   // to check if the array sorted or no
+    int count = 0;                       // to count the number of iteration to swap
+    for (int i = 0 ; i < n-1 ; i++)      //outer loop to clac the number of pass
+    { for (int j = 0 ; j < n-i-1 ; j++)
+        {
+             if (arr[j] > arr[j + 1])
+             {
+                 swap(arr[j] , arr[j + 1]);
+                 flag =false;           // if the swap is made flage is false 
+             }
+             count++;
+         }
+         if(flag == true)                 // is true the array is sorrted 
+         break; 
+    }
+        
+        cout << "# of rounds " << count <<endl;
+}
+
+void printArray(int arr[] , int n)
+{
+    for (int i = 0 ; i < n ; i++ )
+    cout << arr[i] <<" ";
+    cout << endl;
+}
+
+
+
+int main()
+{
+    
+ int arr[] = {100,60,20,50,30,90};
+ int n = sizeof(arr) / sizeof(arr[0]); //  24 / 4 = 6
+ 
+ bubbleSort(arr , n);
+ printArray(arr , n);
+  
+  
+    return 0;
+}
+
+
+
+ //time complextiy  big O(n)
