@@ -1,0 +1,79 @@
+ /* binarySearch*/ 
+ // array must be sorted asce or desce
+ // to get the middel of array ||  middel =  (low + hieght) / 2   || take the right number  (5.5)  take 5 only 
+ // if height < low the number was not found 
+ 
+ 
+ 
+// time best case O(1)
+//      worst case O(log n)
+//      avarge case O(log n)
+
+//space comlexctiy O(1)
+
+
+
+#include <iostream>
+
+using namespace std;
+
+
+
+int binarySearch(int arr[] , int l , int h , int element )
+{
+    while(l <= h)
+    {
+        int m = (l + h) /2 ; 
+        
+        
+        if (arr[m] == element )
+        return m ;
+        
+        if (arr[m] > element )
+        h = m - 1 ;
+        
+        else
+        l = m + 1;
+        
+        
+        
+    }
+    return -1 ;
+}
+
+
+int binarySearchRec(int arr[], int l, int h, int element)
+{
+	if (h >= l) {
+		int mid = (l + h) / 2;
+
+		if (arr[mid] == element)
+			return mid;
+
+		if (arr[mid] > element)
+			return binarySearch(arr, l, mid - 1, element);
+
+		return binarySearch(arr, mid + 1, h, element);
+	}
+	return -1;
+}
+
+
+
+int main()
+{
+    
+    int arr[] = { 10 , 20 , 30 ,40 ,50 ,60 ,70};
+    int n = sizeof(arr) / sizeof(arr[0]);
+    int num ;
+    cout << "Enter integer : " ; 
+    cin >> num ; 
+    int result = binarySearchRec(arr , 0 , n - 1 , num );  // or   binarySearch(arr , 0 , n - 1 , num )
+    if (result == -1 )
+    cout << "the Number : (" << num << ") was not found." << endl;
+      else 
+    cout << "the Number : (" << arr[result] << ")  was found At Index :" << result << endl;  
+ 
+    
+   return 0;
+}
