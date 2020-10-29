@@ -9,8 +9,13 @@ int var2 = 30 ;
 cout << &var1 <<endl;
 cout << &var2 <<endl; 
 
-int *ptr;
-ptr = &var2 ;
+//اي تغير يتم عل المتغير بنعكس علي البوينتر والعكس 
+//ل اسناد قيمة البونتر يوضع علامة * قبل البونتر 
+
+
+
+int *ptr; // لازم اربطوا بمتغير 
+ptr = &var2 ; 
 *ptr = 2000;
 cout << *ptr <<endl;
 cout << var2 <<endl;
