@@ -1,0 +1,222 @@
+//insert & delete & search & access  = O(1)
+
+//hash function law  :-  h(key) = key % size 
+
+// to get mode :- n1 - (n1 / n2) * n2
+
+//if you have collisions use   (index + i^2) % size   //quadratic probing method
+
+// chaining  time in worst case linear time O(n)
+
+
+
+
+
+ 
+// the chaning method           ---------------    implementation   - -------------- 
+
+
+#include <iostream>
+#include <list>                                     //to use linked list 
+#include <cstring>                                  // in list will pair key will be int & value will be string 
+using namespace std;
+//implement phone book //number , name 
+// hashtable to implement 950 , jimmy
+
+
+class hashtable
+{
+    private :
+    
+    // define how many list in action going to use 
+    static const int hashGroups = 10 ;
+    
+    // array to store list each list going to have pair 
+    list<pair<int,string>> table[hashGroups];            // list 1 , index 0 , list 2 .index 1 
+    
+    public :
+         bool isEmpty() const;
+         int hashFunction(int key);
+         void insertItem(int key , string value);   // it one pair but in our list 
+         void removeItem(int key);
+         string searchTable(int key) ;              // input a key and recive string value
+         void printTable();                        //  print the content of hashtable
+    
+};
+
+
+
+bool hashtable::isEmpty() const 
+{
+    int sum{};                               // ordinary define 
+    for (int i{} ; i < hashGroups ; i++)    
+    {
+         sum += table[i].size();                      
+    }
+     
+     if (!sum)             // if sum is zero 
+     {
+         return true;
+     }
+     return false ;              // if is not zero return false 
+}
+
+ // we want to return a value between 0 to 9
+int hashtable::hashFunction (int key)
+{
+    return key % hashGroups ; // key % size = 905 % 10 = 5 
+}
+
+
+void hashtable::insertItem(int key , string value)
+{  
+    // this key will be hashed 
+    // to hashvalue correspond to that key 
+    int hashvalue = hashFunction(key) ; 
+    
+    // cell : is the list will put in 
+                     // given index
+    auto& cell =  table[hashvalue];
+    
+    // iterator of begining of this list 
+    auto bItr = begin(cell) ; 
+    
+    //ask whay we push this parent in the list 
+    // ask if the key put exists or not 
+    // assuming the key dosen't exists
+    bool keyExists = false;
+    
+    for (;bItr!=end(cell);bItr++)    // لو موجود علي نفس الاندكس بدله بالجديد 
+    {                              // if exists replace the value key of new value that i put in     // may be collisoin replacment method 
+        if (bItr->first == key)
+        {
+            keyExists = true ;
+            bItr->second = value ;
+            cout << "[WARNING] Key exists . Value replaced. " <<endl ;
+            break ;
+            // because each key keyExists it appeaer one time 
+        }
+    }
+    
+    //if it doesn't Exists    // لو مش موجود 
+    if (!keyExists)
+    {
+        cell.emplace_back(key , value);    // add 
+    }
+    
+    return;
+}
+
+// will take key cause each key is destinct either be in hashtable or not   
+void hashtable::removeItem(int key)
+   // هنستخدم نفس طريقة ادخال العنصر بس في تغير صغير تحت
+{
+    // this key will be hashed 
+    // to hashvalue correspond to that key 
+    int hashvalue = hashFunction(key) ; 
+    
+    // cell : is the list will put in 
+                     // given index
+    auto& cell =  table[hashvalue];       // & to give me address of each hashvalue or cell  don't forget to check the video commnts to answer
+    
+    // iterator of begining of this list 
+    auto bItr = begin(cell) ; 
+    
+    //ask whay we push this parent in the list 
+    // ask if the key put exists or not 
+    // assuming the key dosen't exists
+    bool keyExists = false;
+    
+    for (;bItr!=end(cell);bItr++)
+    {                              // if exists replace the value key of new value that i put in     // may be collisoin replacment method 
+        if (bItr->first == key)
+        {
+            keyExists = true ;
+              // reuse this old iterator to delete the same index
+              bItr = cell.erase(bItr) ;                // the remove opreation here
+              
+            cout << "[INFO] pair removed " <<endl; 
+            break ;
+            // because each key keyExists it appeaer one time 
+        }
+    }
+        // if the key doesn't Exists  // لو مش موجود 
+    if (!keyExists)
+    {
+        cout << "[WARNING] Key not found . pair not removed . " << endl;
+    }
+    
+    return;
+}
+
+
+void hashtable::printTable ()
+{
+    for (int i{} ; i < hashGroups ; i++)
+    {
+        //if first list is empty skip it 
+        //and continue the process until print out every thing 
+        
+        if (table[i].size() == 0) continue ;   //if first list = 0  continue we won't keep going through loop 
+        
+        // if is it not loop through a list 
+        
+        auto  bItr = table[i].begin();
+        for (;bItr != table[i].end(); bItr++)
+        {
+            cout << "[INFO] Key : " << bItr->first << " Value: " << bItr->second <<endl;
+        }
+    }
+    return ; 
+}
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+    hashtable HT ;
+    if (HT.isEmpty())
+    {
+        cout << "Correct answer . Good job. "<<endl ;
+    }
+    else
+    {
+        cout << "Oh oh. We need to check out code! " <<endl;
+    }
+    
+    HT.insertItem(905,"jim");
+    HT.insertItem(123,"ali");
+    HT.insertItem(015,"sou");
+    HT.insertItem(963,"kap");
+    HT.insertItem(014,"LBJ");
+    HT.insertItem(256,"AD");
+    HT.insertItem(256,"rick");
+    
+    HT.printTable();
+    
+    HT.removeItem(123);
+    HT.removeItem(100);    // remove random key that is not in hashtable
+     
+     
+     //check once again if is it empty 
+     
+    if (HT.isEmpty())
+    {     
+        // if is it indeed   // لو كانت فاضية بجد 
+        // this hashtable has more item added to it then is has removed from it 
+        cout << "Oh oh. We need to check out code! "<<endl ;
+    }
+    else
+    {
+        cout << "Correct answer Good job " <<endl;
+    }
+
+    return 0;
+}
